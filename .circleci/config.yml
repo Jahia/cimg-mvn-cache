@@ -4,6 +4,11 @@ orbs:
   docker: circleci/docker@0.5.20
   jahia-modules-orb: jahia/jahia-modules-orb@dev:alpha
 
+parameters:
+  PRIMARY_RELEASE_BRANCH:
+    type: string
+    default: "main" 
+
 jobs:
   build_publish:
     docker:
@@ -34,7 +39,11 @@ jobs:
           name: Build and push Docker image
           command: | 
             docker build -t jahia/cimg-mvn-cache:$JAHIA_TAG --build-arg FROM_IMAGE=$FROM_IMAGE .
-            docker push jahia/cimg-mvn-cache:$JAHIA_TAG
+            if [[ "${CIRCLE_BRANCH}" == "<< pipeline.parameters.PRIMARY_RELEASE_BRANCH >>" ]]; then
+              docker push jahia/cimg-mvn-cache:$JAHIA_TAG
+            else
+              echo "Not in the main branch, skipping docker push"
+            fi          
 
 workflows:
   version: 2
