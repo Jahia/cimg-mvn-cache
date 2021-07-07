@@ -4,9 +4,9 @@ FROM $FROM_IMAGE
 
 RUN git clone --depth 1 https://github.com/Jahia/jahia.git; \
   cd jahia ;\
-  mvn -P test de.qaware.maven:go-offline-maven-plugin:resolve-dependencies ;\
+  mvn clean install de.qaware.maven:go-offline-maven-plugin:resolve-dependencies ;\
   cd ..; rm -Rf jahia
 RUN git clone --depth 1 https://github.com/Jahia/graphql-core.git; \
   cd graphql-core ;\
-  mvn -P test de.qaware.maven:go-offline-maven-plugin:resolve-dependencies ;\
+  mvn clean install de.qaware.maven:go-offline-maven-plugin:resolve-dependencies ;\
   cd ..; rm -Rf graphql-core
