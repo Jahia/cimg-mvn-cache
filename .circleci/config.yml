@@ -24,12 +24,12 @@ jobs:
           name: Creating tag from CircleCI image
           command: |
             echo "export FROM_IMAGE=<< parameters.from_image >>" >> $BASH_ENV
-            echo "export JAHIA_TAG=$(echo "<< parameters.from_image >>" | sed -r 's/[:\/]+/_/g')" >> $BASH_ENV
+            echo "export JAHIA_TAG=$(echo << parameters.from_image >> | sed -r 's/[:\/]+/_/g')" >> $BASH_ENV
       - run:
           name: Printing CircleCI image tags
           command: |
-            echo "FROM_IMAGE=$FROM_IMAGE"             
-            echo "JAHIA_TAG=$JAHIA_TAG"             
+            echo "FROM_IMAGE=${FROM_IMAGE}"
+            echo "JAHIA_TAG=${JAHIA_TAG}"           
       # - run:
       #     name: Build and push Docker image
       #     command: | 
