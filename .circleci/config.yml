@@ -30,11 +30,11 @@ jobs:
           command: |
             echo "FROM_IMAGE=${FROM_IMAGE}"
             echo "JAHIA_TAG=${JAHIA_TAG}"           
-      # - run:
-      #     name: Build and push Docker image
-      #     command: | 
-      #       docker build -t jahia/cimg-mvn-cache:$JAHIA_TAG --build-arg FROM_IMAGE=$FROM_IMAGE .
-      #       docker push jahia/cimg-mvn-cache:$JAHIA_TAG .
+      - run:
+          name: Build and push Docker image
+          command: | 
+            docker build -t jahia/cimg-mvn-cache:$JAHIA_TAG --build-arg FROM_IMAGE=$FROM_IMAGE .
+            docker push jahia/cimg-mvn-cache:$JAHIA_TAG .
 
 workflows:
   version: 2
