@@ -38,7 +38,6 @@ workflows:
   version: 2
   on-code-change:
     jobs:
-      - initialize
       - build_publish:
           context: QA_ENVIRONMENT
           from_image: 'cimg/openjdk:8.0.275'
