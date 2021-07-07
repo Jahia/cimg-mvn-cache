@@ -7,7 +7,7 @@ orbs:
 jobs:
   build_publish:
     docker:
-      - image: docker:17.05.0-ce-git
+      - image: cimg/openjdk:8.0.275
     parameters:
       # Milestone used in Testrail
       from_image:
@@ -24,7 +24,7 @@ jobs:
           name: Creating tag from CircleCI image
           command: |
             echo "export FROM_IMAGE=<< parameters.from_image >>" >> $BASH_ENV
-            # echo "export JAHIA_TAG=$(echo << parameters.from_image >> | sed -r 's/[:\/]+/_/g')" >> $BASH_ENV
+            echo "export JAHIA_TAG=$(echo << parameters.from_image >> | sed -r 's/[:\/]+/_/g')" >> $BASH_ENV
       - run:
           name: Printing CircleCI image tags
           command: |
