@@ -17,3 +17,4 @@ The images are updated when changes are pushed to the repository or nightly.
 ## Accessing the images
 
 Images are being pushed to https://hub.docker.com/repository/docker/jahia/cimg-mvn-cache
+
