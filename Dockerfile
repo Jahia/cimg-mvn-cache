@@ -10,3 +10,5 @@ RUN git clone --depth 1 https://github.com/Jahia/graphql-core.git; \
   cd graphql-core ;\
   mvn dependency:go-offline ;\
   cd ..; rm -Rf graphql-core
+
+COPY maven.settings.xml /home/jahians/.m2/settings.xml
