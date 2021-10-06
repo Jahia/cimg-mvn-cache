@@ -7,7 +7,7 @@ orbs:
 parameters:
   PRIMARY_RELEASE_BRANCH:
     type: string
-    default: "main" 
+    default: "main"
 
 jobs:
   build_publish:
@@ -17,11 +17,11 @@ jobs:
       # Milestone used in Testrail
       from_image:
         type: string
-        default: cimg/openjdk:8.0.275      
+        default: cimg/openjdk:8.0.275
     steps:
-      - checkout  
+      - checkout
       - setup_remote_docker:
-          docker_layer_caching: true      
+          docker_layer_caching: true
       - run:
           name: Login to Docker Hub
           command: docker login -u $DOCKERHUB_LOGIN -p $DOCKERHUB_PASSWORD
@@ -34,17 +34,19 @@ jobs:
           name: Printing CircleCI image tags
           command: |
             echo "FROM_IMAGE=${FROM_IMAGE}"
-            echo "JAHIA_TAG=${JAHIA_TAG}"           
+            echo "JAHIA_TAG=${JAHIA_TAG}"
       - run:
           name: Build and push Docker image
-          command: | 
-            docker build -t jahia/cimg-mvn-cache:$JAHIA_TAG --build-arg FROM_IMAGE=$FROM_IMAGE .
+          command: |
+            docker build -t jahia/cimg-mvn-cache:$JAHIA_TAG \
+            --build-arg FROM_IMAGE="$FROM_IMAGE" \
+            --build-arg GITHUB_API_TOKEN="$GITHUB_API_TOKEN" .
+
             if [[ "${CIRCLE_BRANCH}" == "<< pipeline.parameters.PRIMARY_RELEASE_BRANCH >>" ]]; then
               docker push jahia/cimg-mvn-cache:$JAHIA_TAG
             else
               echo "Not in the main branch, skipping docker push"
-            fi          
-
+            fi
 workflows:
   version: 2
   on-code-change:
@@ -53,9 +55,8 @@ workflows:
           context: QA_ENVIRONMENT
           from_image: 'cimg/openjdk:8.0.275'
 
-  # The objective of nightly runs is to ensure the codebase still passes tests:
-  # - With the latest releases version of Jahia
-  # - With the current snapshot of Jahia
+  # The objective of nightly runs is to ensure keep up to date the artifacts
+  # for the projects listed in the Dockerfile
   nightly:
     triggers:
       - schedule:
