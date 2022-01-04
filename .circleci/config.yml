@@ -12,12 +12,12 @@ parameters:
 jobs:
   build_publish:
     docker:
-      - image: cimg/openjdk:8.0.275
+      - image: cimg/openjdk:8.0.312-node
     parameters:
       # Milestone used in Testrail
       from_image:
         type: string
-        default: cimg/openjdk:8.0.275
+        default: cimg/openjdk:8.0.312-node
     steps:
       - checkout
       - setup_remote_docker:
@@ -53,7 +53,7 @@ workflows:
     jobs:
       - build_publish:
           context: QA_ENVIRONMENT
-          from_image: 'cimg/openjdk:8.0.275'
+          from_image: 'cimg/openjdk:8.0.312-node'
 
   # The objective of nightly runs is to ensure keep up to date the artifacts
   # for the projects listed in the Dockerfile
@@ -68,5 +68,5 @@ workflows:
     jobs:
       - build_publish:
           context: QA_ENVIRONMENT
-          from_image: 'cimg/openjdk:8.0.275'
+          from_image: 'cimg/openjdk:8.0.312-node'
 
