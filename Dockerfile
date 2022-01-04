@@ -1,4 +1,4 @@
-ARG FROM_IMAGE=cimg/openjdk:8.0.302
+ARG FROM_IMAGE=cimg/openjdk:8.0.312-node
 
 FROM $FROM_IMAGE
 ARG GITHUB_API_TOKEN
