@@ -36,7 +36,7 @@ jobs:
             echo "FROM_IMAGE=${FROM_IMAGE}"
             echo "JAHIA_TAG=${JAHIA_TAG}"
       - run:
-          name: Build and push Docker image
+          name: Build and push CircleCI Docker image
           command: |
             docker build -t jahia/cimg-mvn-cache:$JAHIA_TAG \
             --build-arg FROM_IMAGE="$FROM_IMAGE" \
@@ -44,6 +44,18 @@ jobs:
 
             if [[ "${CIRCLE_BRANCH}" == "<< pipeline.parameters.PRIMARY_RELEASE_BRANCH >>" ]]; then
               docker push jahia/cimg-mvn-cache:$JAHIA_TAG
+            else
+              echo "Not in the main branch, skipping docker push"
+            fi
+      - run:
+          name: Build and push Github Actions Docker image
+          command: |
+            docker build -t jahia/cimg-mvn-cache:ga_$JAHIA_TAG \
+            --build-arg FROM_IMAGE="jahia/cimg-mvn-cache:$JAHIA_TAG" \
+            -f Dockerfile-github .
+
+            if [[ "${CIRCLE_BRANCH}" == "<< pipeline.parameters.PRIMARY_RELEASE_BRANCH >>" ]]; then
+              docker push jahia/cimg-mvn-cache:ga_$JAHIA_TAG
             else
               echo "Not in the main branch, skipping docker push"
             fi
