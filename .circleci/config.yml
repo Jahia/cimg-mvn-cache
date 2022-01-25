@@ -52,7 +52,7 @@ jobs:
           command: |
             docker build -t jahia/cimg-mvn-cache:ga_$JAHIA_TAG \
             --build-arg FROM_IMAGE="jahia/cimg-mvn-cache:$JAHIA_TAG" \
-            -f Dockerfile-github
+            -f Dockerfile-github .
 
             if [[ "${CIRCLE_BRANCH}" == "<< pipeline.parameters.PRIMARY_RELEASE_BRANCH >>" ]]; then
               docker push jahia/cimg-mvn-cache:ga_$JAHIA_TAG
