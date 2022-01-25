@@ -1,0 +1,9 @@
+ARG FROM_IMAGE=jahia/cimg-mvn-cache:cimg_openjdk_8.0.312-node
+
+FROM $FROM_IMAGE
+
+USER root
+
+RUN mv /home/circleci/.m2 /root/
+
+RUN chown -R root:root /root/.m2
