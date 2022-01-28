@@ -1,6 +1,6 @@
-ARG FROM_IMAGE=cimg/openjdk:8.0.312-node
+ARG CCI_SRC_IMAGE=cimg/openjdk:8.0.312-node
 
-FROM $FROM_IMAGE
+FROM $CCI_SRC_IMAGE
 ARG GITHUB_API_TOKEN
 
 RUN git clone https://$GITHUB_API_TOKEN@github.com/Jahia/jahia-private.git; \
