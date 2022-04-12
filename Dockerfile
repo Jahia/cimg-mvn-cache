@@ -19,8 +19,3 @@ RUN git clone https://$GITHUB_API_TOKEN@github.com/Jahia/jahia-private.git; \
     git checkout -b JAHIA_7_3_8_0 JAHIA_7_3_8_0;\
     mvn clean install;\
     cd ..; rm -Rf jahia-private
-
-RUN git clone https://$GITHUB_API_TOKEN@github.com/Jahia/jexperience.git; \
-    cd jexperience;\
-    mvn clean install;\
-    cd ..; rm -Rf jexperience
