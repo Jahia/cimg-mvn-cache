@@ -23,3 +23,4 @@ RUN git clone https://$GITHUB_API_TOKEN@github.com/Jahia/jahia-private.git; \
 RUN git clone https://$GITHUB_API_TOKEN@github.com/Jahia/jexperience.git; \
     cd jexperience;\
     mvn clean install;\
+    cd ..; rm -Rf jexperience
