@@ -2,7 +2,7 @@ version: 2.1
 
 orbs:
   docker: circleci/docker@0.5.20
-  jahia-modules-orb: jahia/jahia-modules-orb@dev:alpha
+  jahia-modules-orb: jahia/jahia-modules-orb@1
 
 parameters:
   PRIMARY_RELEASE_BRANCH:
@@ -14,7 +14,6 @@ jobs:
     docker:
       - image: cimg/openjdk:8.0.312-node
     parameters:
-      # Milestone used in Testrail
       cci_src_image:
         type: string
         default: cimg/openjdk:8.0.312-node
@@ -22,6 +21,7 @@ jobs:
       - checkout
       - setup_remote_docker:
           docker_layer_caching: true
+          version: 20.10.14
       - run:
           name: Login to Docker Hub
           command: docker login -u $DOCKERHUB_LOGIN -p $DOCKERHUB_PASSWORD
@@ -35,12 +35,16 @@ jobs:
           command: |
             echo "CCI_SRC_IMAGE=${CCI_SRC_IMAGE}"
             echo "JAHIA_TAG=${JAHIA_TAG}"
+            echo "JAHIA_TAG=${JAHIA_TAG}"
       - run:
           name: Build and push CircleCI Docker image
           command: |
-            docker build -t jahia/cimg-mvn-cache:$JAHIA_TAG \
+            ssh-keyscan github.com >> ~/.ssh/known_hosts
+            git config user.email "jahia-ci@jahia.com"
+            git config user.name "Jahia CI"
+            DOCKER_BUILDKIT=1 docker build --ssh default -t jahia/cimg-mvn-cache:$JAHIA_TAG \
             --build-arg CCI_SRC_IMAGE="$CCI_SRC_IMAGE" \
-            --build-arg GITHUB_API_TOKEN="$GITHUB_API_TOKEN" .
+            .
 
             if [[ "${CIRCLE_BRANCH}" == "<< pipeline.parameters.PRIMARY_RELEASE_BRANCH >>" ]]; then
               docker push jahia/cimg-mvn-cache:$JAHIA_TAG

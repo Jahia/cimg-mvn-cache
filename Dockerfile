@@ -1,11 +1,14 @@
 ARG CCI_SRC_IMAGE=cimg/openjdk:8.0.312-node
 
 FROM $CCI_SRC_IMAGE
-ARG GITHUB_API_TOKEN
+
+USER root
 
 ADD maven.settings.xml .
 
-RUN git clone https://$GITHUB_API_TOKEN@github.com/Jahia/jahia-private.git; \
+RUN mkdir -p -m 0700 ~/.ssh && ssh-keyscan github.com >> ~/.ssh/known_hosts
+
+RUN --mount=type=ssh git clone git@github.com:Jahia/jahia-private.git; \
     cd jahia-private;\
     mvn -B -s ../maven.settings.xml dependency:resolve;\
     git checkout -b JAHIA_8_1_1_0 JAHIA_8_1_1_0;\
@@ -21,3 +24,8 @@ RUN git clone https://$GITHUB_API_TOKEN@github.com/Jahia/jahia-private.git; \
     git checkout -b JAHIA_7_3_8_0 JAHIA_7_3_8_0;\
     mvn -B -s ../maven.settings.xml dependency:resolve;\
     cd ..; rm -Rf jahia-private
+
+RUN mv /root/.m2 /home/circleci/; \
+    chown -R circleci:circleci /home/circleci/.m2
+
+USER circleci
