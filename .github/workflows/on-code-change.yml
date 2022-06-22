@@ -8,6 +8,11 @@ jobs:
       runs-on: ubuntu-latest
       steps:
         - uses: actions/checkout@main
+        - name: Docker meta
+          id: meta
+          uses: docker/metadata-action@v4
+          with:
+            images: cimg/openjdk:8.0.312-node
         - name: Set up QEMU
           uses: docker/setup-qemu-action@v2
         - name: Set up Docker Buildx
@@ -21,5 +26,6 @@ jobs:
           uses: docker/build-push-action@v3
           with:
             push: true
-            tags: user/app:latest
+            tags: ${{ steps.meta.outputs.tag }}
+            labels: ${{ steps.meta.outputs.labels }}
   
