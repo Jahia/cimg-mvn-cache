@@ -12,7 +12,7 @@ jobs:
           id: meta
           uses: docker/metadata-action@v4
           with:
-            images: cimg/openjdk:8.0.312-node
+            images: cimg/openjdk
         - name: Set up QEMU
           uses: docker/setup-qemu-action@v2
         - name: Set up Docker Buildx
