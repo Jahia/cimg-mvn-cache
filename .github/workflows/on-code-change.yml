@@ -28,6 +28,7 @@ jobs:
         with:
           ssh-private-key: | 
             ${{ secrets.BASTION_SSH_PRIVATE_KEY_JAHIACI }}
+            ${{ secrets.GH_SSH_PRIVATE_KEY_JAHIACI }}
       - name: Build and push CircleCI Docker image
         shell: bash
         run: |
