@@ -24,6 +24,7 @@ jobs:
         run: |
           echo "CCI_SRC_IMAGE=${CCI_SRC_IMAGE}"
           echo "JAHIA_TAG=${JAHIA_TAG}"
+      - uses: webfactory/ssh-agent@v0.5.4
       - name: Build and push CircleCI Docker image
         shell: bash
         run: |
