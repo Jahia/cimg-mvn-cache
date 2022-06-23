@@ -27,8 +27,7 @@ jobs:
       - uses: webfactory/ssh-agent@v0.5.4
         with:
           ssh-private-key: | 
-            ${{ secrets.PERF_BASTION_PRIVATE_KEY }}
-            ${{ secrets.JAHIA_BASTION_PRIVATE_KEY }}
+            ${{ secrets.BASTION_SSH_PRIVATE_KEY_JAHIACI }}
       - name: Build and push CircleCI Docker image
         shell: bash
         run: |
