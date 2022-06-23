@@ -4,6 +4,7 @@ on: [push]
 
 env:
   cci_src_image: cimg/openjdk:8.0.312-node
+  PRIMARY_RELEASE_BRANCH: main
 
 jobs:
   build:
@@ -39,7 +40,7 @@ jobs:
           --build-arg CCI_SRC_IMAGE="$CCI_SRC_IMAGE" \
           .
 
-          if [[ "${CIRCLE_BRANCH}" == "<< pipeline.parameters.PRIMARY_RELEASE_BRANCH >>" ]]; then
+          if [[ "${BRANCH_NAME}" == "${{ env.PRIMARY_RELEASE_BRANCH }}" ]]; then
             docker push jahia/cimg-mvn-cache:$JAHIA_TAG
           else
             echo "Not in the main branch, skipping docker push"
@@ -52,7 +53,7 @@ jobs:
           --build-arg FROM_IMAGE="jahia/cimg-mvn-cache:$JAHIA_TAG" \
           -f Dockerfile-github .
 
-          if [[ "${CIRCLE_BRANCH}" == "<< pipeline.parameters.PRIMARY_RELEASE_BRANCH >>" ]]; then
+          if [[ "${BRANCH_NAME}" == "${{ env.PRIMARY_RELEASE_BRANCH }}" ]]; then
             docker push jahia/cimg-mvn-cache:ga_$JAHIA_TAG
           else
             echo "Not in the main branch, skipping docker push"
