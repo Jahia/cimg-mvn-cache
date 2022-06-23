@@ -37,7 +37,7 @@ jobs:
       - name: Build and push CircleCI Docker image
         uses: docker/build-push-action@v3
         with:
-          push: false #!e "${BRANCH_NAME} == ${{ env.PRIMARY_RELEASE_BRANCH }} ? true : false"
+          push: !e "${BRANCH_NAME} == ${{ env.PRIMARY_RELEASE_BRANCH }} ? true : false"
           tags: jahia/cimg-mvn-cache:${JAHIA_TAG}
       - name: Build and push Github Actions Docker image
         shell: bash
