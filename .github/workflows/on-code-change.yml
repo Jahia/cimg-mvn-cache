@@ -29,7 +29,6 @@ jobs:
           echo "JAHIA_TAG=${{ JAHIA_TAG }}"
           echo "JAHIA_TAG=${JAHIA_TAG}"
           echo "JAHIA_TAG=${{ env.JAHIA_TAG }}"
-          
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
       - uses: webfactory/ssh-agent@v0.5.4
@@ -40,7 +39,7 @@ jobs:
       - name: Build and push CircleCI Docker image
         uses: docker/build-push-action@v3
         with:
-          push: true
+          push: false
           tags: jahia/cimg-mvn-cache:${{ JAHIA_TAG }}
       - name: Build and push Github Actions Docker image
         shell: bash
