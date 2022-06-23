@@ -5,8 +5,7 @@ on: [push]
 
 jobs:
   build_publish:
-    docker:
-      - image: cimg/openjdk:8.0.312-node
+    runs-on: ubuntu-latest
     parameters:
       cci_src_image:
         type: string
