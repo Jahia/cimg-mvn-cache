@@ -1,61 +1,51 @@
-name: On Code Change (PR)
-
+name: On Code Change
 
 on: [push]
 
 jobs:
-  build_publish:
+  build:
+    name: Buid and push Docker Images
     runs-on: ubuntu-latest
-    parameters:
-      cci_src_image:
-        type: string
-        default: cimg/openjdk:8.0.312-node
     steps:
-      - checkout
-      - setup_remote_docker:
-          docker_layer_caching: true
-          version: 20.10.14
-      - run:
-          name: Login to Docker Hub
-          command: docker login -u $DOCKERHUB_LOGIN -p $DOCKERHUB_PASSWORD
-      - run:
-          name: Creating tag from CircleCI image
-          command: |
-            echo "export CCI_SRC_IMAGE=<< parameters.cci_src_image >>" >> $BASH_ENV
-            echo "export JAHIA_TAG=$(echo << parameters.cci_src_image >> | sed -r 's/[:\/]+/_/g')" >> $BASH_ENV
-      - run:
-          name: Printing CircleCI image tags
-          command: |
-            echo "CCI_SRC_IMAGE=${CCI_SRC_IMAGE}"
-            echo "JAHIA_TAG=${JAHIA_TAG}"
-            echo "JAHIA_TAG=${JAHIA_TAG}"
-      - run:
-          name: Build and push CircleCI Docker image
-          command: |
-            ssh-keyscan github.com >> ~/.ssh/known_hosts
-            git config user.email "jahia-ci@jahia.com"
-            git config user.name "Jahia CI"
-            DOCKER_BUILDKIT=1 docker build --ssh default -t jahia/cimg-mvn-cache:$JAHIA_TAG \
-            --build-arg CCI_SRC_IMAGE="$CCI_SRC_IMAGE" \
-            .
+      - uses: actions/checkout@main
+      - name: Login to Docker Hub
+        shell: bash
+        run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
+      - name: Creating tag from CircleCI image
+        shell: bash
+        run: |
+          echo "export CCI_SRC_IMAGE=<< parameters.cci_src_image >>" >> $BASH_ENV
+          echo "export JAHIA_TAG=$(echo << parameters.cci_src_image >> | sed -r 's/[:\/]+/_/g')" >> $BASH_ENV
+      - name: Printing CircleCI image tags
+        shell: bash
+        run: |
+          echo "CCI_SRC_IMAGE=${CCI_SRC_IMAGE}"
+          echo "JAHIA_TAG=${JAHIA_TAG}"
+      - name: Build and push CircleCI Docker image
+        shell: bash
+        run: |
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
+          git config user.email "jahia-ci@jahia.com"
+          git config user.name "Jahia CI"
+          DOCKER_BUILDKIT=1 docker build --ssh default -t jahia/cimg-mvn-cache:$JAHIA_TAG \
+          --build-arg CCI_SRC_IMAGE="$CCI_SRC_IMAGE" \
+          .
 
-            if [[ "${CIRCLE_BRANCH}" == "<< pipeline.parameters.PRIMARY_RELEASE_BRANCH >>" ]]; then
-              docker push jahia/cimg-mvn-cache:$JAHIA_TAG
-            else
-              echo "Not in the main branch, skipping docker push"
-            fi
-      - run:
-          name: Build and push Github Actions Docker image
-          command: |
-            docker build -t jahia/cimg-mvn-cache:ga_$JAHIA_TAG \
-            --build-arg CCI_SRC_IMAGE="$CCI_SRC_IMAGE" \
-            --build-arg FROM_IMAGE="jahia/cimg-mvn-cache:$JAHIA_TAG" \
-            -f Dockerfile-github .
+          if [[ "${CIRCLE_BRANCH}" == "<< pipeline.parameters.PRIMARY_RELEASE_BRANCH >>" ]]; then
+            docker push jahia/cimg-mvn-cache:$JAHIA_TAG
+          else
+            echo "Not in the main branch, skipping docker push"
+          fi
+      - name: Build and push Github Actions Docker image
+        shell: bash
+        run: |
+          docker build -t jahia/cimg-mvn-cache:ga_$JAHIA_TAG \
+          --build-arg CCI_SRC_IMAGE="$CCI_SRC_IMAGE" \
+          --build-arg FROM_IMAGE="jahia/cimg-mvn-cache:$JAHIA_TAG" \
+          -f Dockerfile-github .
 
-            if [[ "${CIRCLE_BRANCH}" == "<< pipeline.parameters.PRIMARY_RELEASE_BRANCH >>" ]]; then
-              docker push jahia/cimg-mvn-cache:ga_$JAHIA_TAG
-            else
-              echo "Not in the main branch, skipping docker push"
-            fi
-            labels: ${{ steps.meta.outputs.labels }}
-  
+          if [[ "${CIRCLE_BRANCH}" == "<< pipeline.parameters.PRIMARY_RELEASE_BRANCH >>" ]]; then
+            docker push jahia/cimg-mvn-cache:ga_$JAHIA_TAG
+          else
+            echo "Not in the main branch, skipping docker push"
+          fi
