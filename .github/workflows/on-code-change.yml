@@ -2,6 +2,9 @@ name: On Code Change
 
 on: [push]
 
+env:
+  cci_src_image: cimg/openjdk:8.0.312-node
+
 jobs:
   build:
     name: Buid and push Docker Images
@@ -14,8 +17,8 @@ jobs:
       - name: Creating tag from CircleCI image
         shell: bash
         run: |
-          echo "export CCI_SRC_IMAGE=<< parameters.cci_src_image >>" >> $BASH_ENV
-          echo "export JAHIA_TAG=$(echo << parameters.cci_src_image >> | sed -r 's/[:\/]+/_/g')" >> $BASH_ENV
+          echo "CCI_SRC_IMAGE=${{ env.cci_src_image }}" >> $GITHUB_ENV
+          echo "JAHIA_TAG=$(echo ${{ env.cci_src_image }} | sed -r 's/[:\/]+/_/g')" >> $GITHUB_ENV
       - name: Printing CircleCI image tags
         shell: bash
         run: |
