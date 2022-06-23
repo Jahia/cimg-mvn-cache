@@ -26,7 +26,6 @@ jobs:
         shell: bash
         run: |
           echo "CCI_SRC_IMAGE=${CCI_SRC_IMAGE}"
-          echo "JAHIA_TAG=${{ JAHIA_TAG }}"
           echo "JAHIA_TAG=${JAHIA_TAG}"
           echo "JAHIA_TAG=${{ env.JAHIA_TAG }}"
       - name: Set up Docker Buildx
