@@ -41,15 +41,9 @@ jobs:
           push: false
           tags: jahia/cimg-mvn-cache:${{ env.JAHIA_TAG }}
       - name: Build and push Github Actions Docker image
-        shell: bash
-        run: |
-          docker build -t jahia/cimg-mvn-cache:ga_$JAHIA_TAG \
-          --build-arg CCI_SRC_IMAGE="$CCI_SRC_IMAGE" \
-          --build-arg FROM_IMAGE="jahia/cimg-mvn-cache:$JAHIA_TAG" \
-          -f Dockerfile-github .
-
-          if [[ "${BRANCH_NAME}" == "${{ env.PRIMARY_RELEASE_BRANCH }}" ]]; then
-            docker push jahia/cimg-mvn-cache:ga_$JAHIA_TAG
-          else
-            echo "Not in the main branch, skipping docker push"
-          fi
+        uses: docker/build-push-action@v3
+        with:
+          ssh: default
+          push: false
+          tags: jahia/cimg-mvn-cache:${{ env.JAHIA_TAG }}
+          file: Dockerfile-github
