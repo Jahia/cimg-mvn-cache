@@ -1,6 +1,9 @@
 name: On Code Change
 
-on: [push]
+on:
+  push:
+    branches:
+      - main
 
 env:
   cci_src_image: cimg/openjdk:8.0.312-node
