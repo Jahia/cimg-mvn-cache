@@ -45,5 +45,5 @@ jobs:
         with:
           ssh: default
           push: false
-          tags: jahia/cimg-mvn-cache:${{ env.JAHIA_TAG }}
+          tags: jahia/cimg-mvn-cache:ga_${{ env.JAHIA_TAG }}
           file: Dockerfile-github
