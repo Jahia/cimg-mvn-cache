@@ -42,12 +42,12 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           ssh: default
-          push: false
+          push: true
           tags: jahia/cimg-mvn-cache:${{ env.JAHIA_TAG }}
       - name: Build and push Github Actions Docker image
         uses: docker/build-push-action@v3
         with:
           ssh: default
-          push: false
+          push: true
           tags: jahia/cimg-mvn-cache:ga_${{ env.JAHIA_TAG }}
           file: Dockerfile-github
