@@ -13,7 +13,6 @@ on:
 
 env:
   cci_src_image: cimg/openjdk:8.0.312-node
-  PRIMARY_RELEASE_BRANCH: main
 
 jobs:
   build:
