@@ -1,15 +1,11 @@
 name: On Code Change
 
 on:
+  schedule:
+    - cron:  "0 0 * * *"
   push:
     branches:
       - main
-  schedule:
-    - cron:  "0 0 * * *"
-    filters:
-      branches:
-        only:
-         - main
 
 env:
   cci_src_image: cimg/openjdk:8.0.312-node
