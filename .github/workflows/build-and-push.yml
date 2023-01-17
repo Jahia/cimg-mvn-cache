@@ -33,7 +33,7 @@ jobs:
           echo "JAHIA_TAG=${JAHIA_TAG}"
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
-      - uses: webfactory/ssh-agent@v0.5.4
+      - uses: webfactory/ssh-agent@v0.7.0
         with:
           ssh-private-key: | 
             ${{ secrets.BASTION_SSH_PRIVATE_KEY_JAHIACI }}
