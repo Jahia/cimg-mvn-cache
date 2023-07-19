@@ -11,13 +11,13 @@ RUN mkdir -p -m 0700 ~/.ssh && ssh-keyscan github.com >> ~/.ssh/known_hosts
 RUN --mount=type=ssh git clone git@github.com:Jahia/jahia-private.git; \
     cd jahia-private;\
     mvn -B -s ../maven.settings.xml dependency:resolve;\
-    git checkout -b JAHIA_8_1_1_0 JAHIA_8_1_6_0;\    
+    git checkout -b JAHIA_8_1_6_0 JAHIA_8_1_6_0;\    
     mvn -B -s ../maven.settings.xml dependency:resolve;\
-    git checkout -b JAHIA_8_1_1_0 JAHIA_8_1_5_0;\
+    git checkout -b JAHIA_8_1_5_1 JAHIA_8_1_5_1;\
     mvn -B -s ../maven.settings.xml dependency:resolve;\
-    git checkout -b JAHIA_8_1_1_0 JAHIA_8_1_3_0;\        
+    git checkout -b JAHIA_8_1_3_1 JAHIA_8_1_3_1;\        
     mvn -B -s ../maven.settings.xml dependency:resolve;\
-    git checkout -b JAHIA_8_1_1_0 JAHIA_8_1_2_0;\
+    git checkout -b JAHIA_8_1_2_3 JAHIA_8_1_2_3;\
     mvn -B -s ../maven.settings.xml dependency:resolve;\
     git checkout -b JAHIA_8_1_0_0 JAHIA_8_1_0_0;\
     mvn -B -s ../maven.settings.xml dependency:resolve;\
