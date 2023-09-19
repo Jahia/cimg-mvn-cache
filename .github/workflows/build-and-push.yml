@@ -7,9 +7,10 @@ on:
   push:
     branches:
       - main
+      - jdk-*
 
 env:
-  cci_src_image: cimg/openjdk:8.0.312-node
+  cci_src_image: cimg/openjdk:11.0.20-node
 
 jobs:
   build:
@@ -27,11 +28,13 @@ jobs:
         run: |
           echo "CCI_SRC_IMAGE=${{ env.cci_src_image }}" >> $GITHUB_ENV
           echo "JAHIA_TAG=$(echo ${{ env.cci_src_image }} | sed -r 's/[:\/]+/_/g')" >> $GITHUB_ENV
+          echo "FROM_IMAGE=jahia/cimg-mvn-cache:$(echo ${{ env.cci_src_image }} | sed -r 's/[:\/]+/_/g')" >> $GITHUB_ENV
       - name: Printing CircleCI image tags
         shell: bash
         run: |
           echo "CCI_SRC_IMAGE=${CCI_SRC_IMAGE}"
           echo "JAHIA_TAG=${JAHIA_TAG}"
+          echo "FROM_IMAGE=${FROM_IMAGE}"
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
       - uses: webfactory/ssh-agent@v0.7.0
