@@ -7,7 +7,7 @@ on:
   push:
     branches:
       - main
-      - jdk-*
+      - "jdk-.*"
 
 env:
   cci_src_image: cimg/openjdk:11.0.20-node
