@@ -48,6 +48,8 @@ jobs:
           ssh: default
           push: true
           tags: jahia/cimg-mvn-cache:${{ env.JAHIA_TAG }}
+          build-args: |
+            CCI_SRC_IMAGE=${{ env.CCI_SRC_IMAGE }}
       - name: Build and push Github Actions Docker image
         uses: docker/build-push-action@v3
         with:
@@ -55,3 +57,6 @@ jobs:
           push: true
           tags: jahia/cimg-mvn-cache:ga_${{ env.JAHIA_TAG }}
           file: Dockerfile-github
+          build-args: |
+            FROM_IMAGE=${{ env.FROM_IMAGE }}
+            CCI_SRC_IMAGE=${{ env.CCI_SRC_IMAGE }}
