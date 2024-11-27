@@ -9,7 +9,7 @@ on:
       - main
 
 env:
-  cci_src_image: cimg/openjdk:8.0.312-node
+  cci_src_image: cimg/openjdk:8.0.432-node
 
 jobs:
   build:

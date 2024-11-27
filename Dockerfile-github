@@ -1,5 +1,5 @@
-ARG FROM_IMAGE=jahia/cimg-mvn-cache:cimg_openjdk_8.0.312-node
-ARG CCI_SRC_IMAGE=cimg/openjdk:8.0.312-node
+ARG FROM_IMAGE=jahia/cimg-mvn-cache:cimg_openjdk_8.0.432-node
+ARG CCI_SRC_IMAGE=cimg/openjdk:8.0.432-node
 
 FROM $FROM_IMAGE as warmed-up-image
 

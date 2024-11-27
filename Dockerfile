@@ -1,4 +1,4 @@
-ARG CCI_SRC_IMAGE=cimg/openjdk:8.0.312-node
+ARG CCI_SRC_IMAGE=cimg/openjdk:8.0.432-node
 
 FROM $CCI_SRC_IMAGE
 
