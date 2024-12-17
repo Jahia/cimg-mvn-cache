@@ -25,6 +25,6 @@ the `matrix` strategy is used to build images for multiple JDK versions. The [fo
 ``` 
     strategy:
       matrix:
-        jdk_version: [11.0.20, 17.0.9]
+        jdk_version: ["cimg/openjdk:11.0.20-node", "cimg/openjdk:17.0.9-node"]
  ```
 
