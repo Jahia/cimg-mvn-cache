@@ -21,7 +21,7 @@ Images are being pushed to https://hub.docker.com/repository/docker/jahia/cimg-m
 
 ## JDK Support
 
-the `matrix` strategy is used to build images for multiple JDK versions. The [following[.github/workflows/build-and-push.yml#L13-L16] JDK versions are supported:
+the `matrix` strategy is used to build images for multiple JDK versions. The [following](.github/workflows/build-and-push.yml#L13-L16) JDK versions are supported:
 ``` 
     strategy:
       matrix:
