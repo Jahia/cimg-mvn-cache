@@ -13,7 +13,7 @@ jobs:
   build:
     strategy:
       matrix:
-        jdk_version: [cimg/openjdk:11.0.20-node, cimg/openjdk:17.0.9-node]
+        jdk_version: ["cimg/openjdk:11.0.20-node", "cimg/openjdk:17.0.9-node"]
     name: Buid and push Docker Images
     runs-on: ubuntu-latest
     steps:
