@@ -9,11 +9,11 @@ on:
       - main
       - "jdk-.*"
 
-env:
-  cci_src_image: cimg/openjdk:11.0.20-node
-
 jobs:
   build:
+    strategy:
+      matrix:
+        jdk_version: [11.0.20, 17.0.9]
     name: Buid and push Docker Images
     runs-on: ubuntu-latest
     steps:
@@ -26,9 +26,9 @@ jobs:
       - name: Creating tag from CircleCI image
         shell: bash
         run: |
-          echo "CCI_SRC_IMAGE=${{ env.cci_src_image }}" >> $GITHUB_ENV
-          echo "JAHIA_TAG=$(echo ${{ env.cci_src_image }} | sed -r 's/[:\/]+/_/g')" >> $GITHUB_ENV
-          echo "FROM_IMAGE=jahia/cimg-mvn-cache:$(echo ${{ env.cci_src_image }} | sed -r 's/[:\/]+/_/g')" >> $GITHUB_ENV
+          echo "CCI_SRC_IMAGE=${{ matrix.jdk_version }}" >> $GITHUB_ENV
+          echo "JAHIA_TAG=$(echo ${{ matrix.jdk_version }} | sed -r 's/[:\/]+/_/g')" >> $GITHUB_ENV
+          echo "FROM_IMAGE=jahia/cimg-mvn-cache:$(echo ${{ matrix.jdk_version }} | sed -r 's/[:\/]+/_/g')" >> $GITHUB_ENV
       - name: Printing CircleCI image tags
         shell: bash
         run: |
